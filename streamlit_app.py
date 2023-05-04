@@ -1,16 +1,10 @@
 
-
 import streamlit
 import pandas as pd
 import requests
 import snowflake.connector
 from urllib.error import URLError
 
-
-
-my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
-my_cur = my_cnx.cursor()
-#my_cur.execute("SELECT CURRENT_USER(), CURRENT_ACCOUNT(), CURRENT_REGION()")
 
 streamlit.title('My Parents New Healthy Diner')
 streamlit.header('Breakfast Meanu')
@@ -67,24 +61,12 @@ try:
         streamlit.dataframe(back_from_function)
 except URLError as e:
       streamlit.error()
-    
-#fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-#fruityvice_response = requests.get("https://fruityvice.com/api/fruit/" + "kiwi")
 
-#streamlit.text(fruityvice_response)
-#streamlit.text(fruityvice_response.json())
-
-# take the json version of the response and normalized it 
-
-
+my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
+my_cur = my_cnx.cursor()
 my_cur.execute("SELECT * from fruit_load_list")
-#my_data_row = my_cur.fetchone()
 my_data_rows = my_cur.fetchall()
-#streamlit.text("Hello from Snowflake:")
-#streamlit.text("The fruit load list contains:")
 streamlit.header("The fruit load list contains:")
-#streamlit.text(my_data_row)
-#streamlit.dataframe(my_data_row)
 streamlit.dataframe(my_data_rows)
 
 # Allow the end user to add a fruit to the list
