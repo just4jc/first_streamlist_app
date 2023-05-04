@@ -1,9 +1,11 @@
-import streamlit
-import pandas as pd
 
 # don't run anything past here while we troubleshoot
 streamlit.stop()
+import streamlit
+import pandas as pd
+import requests
 import snowflake.connector
+from urllib.error import URLError
 
 my_cnx = snowflake.connector.connect(**streamlit.secrets["snowflake"])
 my_cur = my_cnx.cursor()
@@ -32,7 +34,6 @@ fruits_to_show = my_fruit_list.loc[fruits_selected]
 streamlit.dataframe(fruits_to_show)
 
 #New Section to display Fruityvice API response
-import requests
 streamlit.header("Fruityvice Fruit Advice!")
 fruit_choice = streamlit.text_input('What fruit would you like information about?','Kiwi')
 streamlit.write('The user entered ', fruit_choice)
